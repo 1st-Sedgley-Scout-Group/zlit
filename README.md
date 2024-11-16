@@ -5,7 +5,7 @@ A streamlit application to show zettle data.
 ## Local Installation
 
   ```sh
-  git clone git+ssh://git@github.com/cabinetoffice/<repo-name-here>.git
+  git clone git+ssh://git@github.com/1st-Sedgley-Scout-Group/zlit.git
   ```
 
 ## Commit Format
