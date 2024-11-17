@@ -1,4 +1,5 @@
 import streamlit as st
+import pyzettle as pz
 
 st.header("Summary")
 
@@ -7,3 +8,5 @@ with col1:
     day = st.selectbox("Day", ["Friday & Saturday", "Friday", "Saturday"], label_visibility='hidden')
 
 people, finances, analysis = st.tabs(['👥 People', '💰  Finances', '📈  Analysis'])
+
+st.dataframe(st.session_state.raw_data)

@@ -1,4 +1,8 @@
+from json import load
 import streamlit as st
+import pyzettle as pz
+from dotenv import load_dotenv
+import os
 
 if "role" not in st.session_state:
     st.session_state.role = None
@@ -77,12 +81,8 @@ bbq_pages = [bbq]
 kitchen_pages = [kitchen]
 
 st.set_page_config(initial_sidebar_state='collapsed')
-st.image("branding/logos/group_logo.png", width=150)
+st.image("zlit/branding/logos/group_logo.png", width=150)
 st.title("Sedgley Charity Beer Festival")
-st.sidebar.image("branding/logos/group_logo.png", width=150)
-st.sidebar.subheader("1st Sedgley Scout Group")
-st.sidebar.write("1stsedgleyscouts.org.uk")
-st.sidebar.write("#skillsforlife")
 
 page_dict = {}
 if st.session_state.role == "Organising Team":
@@ -102,5 +102,26 @@ if len(page_dict) > 0:
     pg = st.navigation(page_dict | {"Account": account_pages})
 else:
     pg = st.navigation([st.Page(login)])
+
+@st.cache_data(ttl=600, max_entries=1)
+
+def get_data():
+    load_dotenv()
+    st.session_state.raw_data = pz.GetPayments(
+    client_id=os.getenv("CLIENT_ID"),
+    api_key=os.getenv("API_KEY"),
+    ).fetch_purchases().format_payments().data
+
+get_data()
+
+def refresh_data():
+    st.cache_data.clear()
+    get_data()
+
+st.sidebar.button("Refresh Data", on_click=refresh_data)
+st.sidebar.image("zlit/branding/logos/group_logo.png", width=150)
+st.sidebar.subheader("1st Sedgley Scout Group")
+st.sidebar.write("1stsedgleyscouts.org.uk")
+st.sidebar.write("#skillsforlife")
 
 pg.run()
