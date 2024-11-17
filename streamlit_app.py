@@ -25,6 +25,12 @@ role = st.session_state.role
 
 logout_page = st.Page(logout, title="Log out", icon=":material/logout:")
 
+home = st.Page(
+    "zlit/pages/09 - home.py",
+    title="Home",
+    icon=":material/help:",
+)
+
 summary = st.Page(
     "zlit/pages/01 - summary.py",
     title="Summary",
@@ -64,13 +70,19 @@ kitchen = st.Page(
     default=(role == "Explorers"),
 )
 
-account_pages = [logout_page]
+account_pages = [logout_page, home]
 summary_pages = [summary]
 ticket_pages = [entry, topup, entry_only]
 bbq_pages = [bbq]
 kitchen_pages = [kitchen]
 
+st.set_page_config(initial_sidebar_state='collapsed')
+st.image("branding/logos/group_logo.png", width=150)
 st.title("Sedgley Charity Beer Festival")
+st.sidebar.image("branding/logos/group_logo.png", width=150)
+st.sidebar.subheader("1st Sedgley Scout Group")
+st.sidebar.write("1stsedgleyscouts.org.uk")
+st.sidebar.write("#skillsforlife")
 
 page_dict = {}
 if st.session_state.role == "Organising Team":
